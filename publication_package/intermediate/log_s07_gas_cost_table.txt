@@ -1,0 +1,57 @@
+   contract                               operation     gas  gas_price_gwei  usd_at_eth_2500  usd_at_eth_3500  usd_at_eth_4500
+v1_original                             logDecision  311007             0.5         0.388759         0.544262         0.699766
+v1_original                             logDecision  311007             5.0         3.887588         5.442623         6.997658
+v1_original                             logDecision  311007            20.0        15.550350        21.770490        27.990630
+v1_original                             logDecision  311007            50.0        38.875875        54.426225        69.976575
+v1_original                             logDecision  311007           100.0        77.751750       108.852450       139.953150
+v1_original                           autoExecutePO  228768             0.5         0.285960         0.400344         0.514728
+v1_original                           autoExecutePO  228768             5.0         2.859598         4.003438         5.147277
+v1_original                           autoExecutePO  228768            20.0        11.438393        16.013750        20.589107
+v1_original                           autoExecutePO  228768            50.0        28.595982        40.034375        51.472768
+v1_original                           autoExecutePO  228768           100.0        57.191964        80.068750       102.945536
+v1_original expected per decision (log + 0.7186*PO)  475393             0.5         0.594242         0.831938         1.069635
+v1_original expected per decision (log + 0.7186*PO)  475393             5.0         5.942418         8.319385        10.696352
+v1_original expected per decision (log + 0.7186*PO)  475393            20.0        23.769670        33.277538        42.785406
+v1_original expected per decision (log + 0.7186*PO)  475393            50.0        59.424176        83.193846       106.963516
+v1_original expected per decision (log + 0.7186*PO)  475393           100.0       118.848351       166.387692       213.927032
+v1_original                        deploy (one-off) 1495969             0.5         1.869961         2.617946         3.365930
+v1_original                        deploy (one-off) 1495969             5.0        18.699613        26.179458        33.659303
+v1_original                        deploy (one-off) 1495969            20.0        74.798450       104.717830       134.637210
+v1_original                        deploy (one-off) 1495969            50.0       186.996125       261.794575       336.593025
+v1_original                        deploy (one-off) 1495969           100.0       373.992250       523.589150       673.186050
+v2_hardened                             logDecision  314946             0.5         0.393683         0.551156         0.708629
+v2_hardened                             logDecision  314946             5.0         3.936825         5.511555         7.086285
+v2_hardened                             logDecision  314946            20.0        15.747300        22.046220        28.345140
+v2_hardened                             logDecision  314946            50.0        39.368250        55.115550        70.862850
+v2_hardened                             logDecision  314946           100.0        78.736500       110.231100       141.725700
+v2_hardened                           autoExecutePO  255610             0.5         0.319512         0.447317         0.575122
+v2_hardened                           autoExecutePO  255610             5.0         3.195123         4.473173         5.751222
+v2_hardened                           autoExecutePO  255610            20.0        12.780493        17.892690        23.004887
+v2_hardened                           autoExecutePO  255610            50.0        31.951232        44.731725        57.512218
+v2_hardened                           autoExecutePO  255610           100.0        63.902464        89.463450       115.024436
+v2_hardened expected per decision (log + 0.7186*PO)  498620             0.5         0.623275         0.872586         1.121896
+v2_hardened expected per decision (log + 0.7186*PO)  498620             5.0         6.232754         8.725856        11.218958
+v2_hardened expected per decision (log + 0.7186*PO)  498620            20.0        24.931017        34.903424        44.875831
+v2_hardened expected per decision (log + 0.7186*PO)  498620            50.0        62.327543        87.258560       112.189577
+v2_hardened expected per decision (log + 0.7186*PO)  498620           100.0       124.655085       174.517120       224.379154
+v2_hardened                        deploy (one-off) 1962276             0.5         2.452845         3.433983         4.415121
+v2_hardened                        deploy (one-off) 1962276             5.0        24.528450        34.339830        44.151210
+v2_hardened                        deploy (one-off) 1962276            20.0        98.113800       137.359320       176.604840
+v2_hardened                        deploy (one-off) 1962276            50.0       245.284500       343.398300       441.512100
+v2_hardened                        deploy (one-off) 1962276           100.0       490.569000       686.796600       883.024200
+                        scale  decisions_per_year  gas_price_gwei  usd_per_year_at_eth_3500
+9 series x 1/day (this study)                3285             0.5              2.866444e+03
+9 series x 1/day (this study)                3285             5.0              2.866444e+04
+9 series x 1/day (this study)                3285            20.0              1.146577e+05
+9 series x 1/day (this study)                3285            50.0              2.866444e+05
+9 series x 1/day (this study)                3285           100.0              5.732887e+05
+  1,000 SKU-locations x 1/day              365000             0.5              3.184937e+05
+  1,000 SKU-locations x 1/day              365000             5.0              3.184937e+06
+  1,000 SKU-locations x 1/day              365000            20.0              1.273975e+07
+  1,000 SKU-locations x 1/day              365000            50.0              3.184937e+07
+  1,000 SKU-locations x 1/day              365000           100.0              6.369875e+07
+ 10,000 SKU-locations x 1/day             3650000             0.5              3.184937e+06
+ 10,000 SKU-locations x 1/day             3650000             5.0              3.184937e+07
+ 10,000 SKU-locations x 1/day             3650000            20.0              1.273975e+08
+ 10,000 SKU-locations x 1/day             3650000            50.0              3.184937e+08
+ 10,000 SKU-locations x 1/day             3650000           100.0              6.369875e+08

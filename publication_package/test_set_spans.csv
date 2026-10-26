@@ -1,0 +1,4 @@
+model,n_rows,first_date,last_date
+xgboost,1233,2025-03-18,2025-08-01
+prophet,1278,2025-03-13,2025-08-01
+lstm,1251,2025-03-16,2025-08-01

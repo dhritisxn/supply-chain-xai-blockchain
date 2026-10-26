@@ -1,0 +1,33 @@
+
+>>> <scratch>\cleanvenv\Scripts\python.exe <scratch>\cleanrun\repo\blockchain\scripts\compile.py --out <scratch>\cleanrun\repo\publication_package\intermediate\compiled_check.json
+    exit=0  (3s)  log: intermediate/log_compile.txt
+    compiled artefact identical to committed ABI/bytecode: True
+
+>>> <scratch>\cleanvenv\Scripts\python.exe s01_build_predictions.py
+    exit=0  (155s)  log: intermediate/log_s01_build_predictions.txt
+
+>>> <scratch>\cleanvenv\Scripts\python.exe s02_statistical_significance.py
+    exit=0  (35s)  log: intermediate/log_s02_statistical_significance.txt
+
+>>> <scratch>\cleanvenv\Scripts\python.exe s03_prophet_conformal.py
+    exit=0  (22s)  log: intermediate/log_s03_prophet_conformal.txt
+
+>>> <scratch>\cleanvenv\Scripts\python.exe s04_lstm_uncertainty.py
+    exit=0  (1033s)  log: intermediate/log_s04_lstm_uncertainty.txt
+
+>>> <scratch>\cleanvenv\Scripts\python.exe s05_gate_analysis.py
+    exit=0  (13s)  log: intermediate/log_s05_gate_analysis.txt
+
+>>> <scratch>\cleanvenv\Scripts\python.exe s06_gas_measurement.py
+    exit=0  (9s)  log: intermediate/log_s06_gas_measurement.txt
+
+>>> <scratch>\cleanvenv\Scripts\python.exe s07_gas_cost_table.py
+    exit=0  (1s)  log: intermediate/log_s07_gas_cost_table.txt
+
+>>> <scratch>\cleanvenv\Scripts\python.exe -m pytest --cov=confidence --cov=decision_gate --cov=inventory --cov-report=term --junitxml=<scratch>\cleanrun\repo\publication_package\intermediate\pytest_junit.xml -q
+    exit=0  (78s)  log: intermediate/pytest_output.txt
+
+(skip) PlantUML render: set PLANTUML_JAR=/path/to/plantuml.jar (v1.2024.7 used) to re-render SVGs
+
+FAILED STEPS: none
+RUN EXIT 0

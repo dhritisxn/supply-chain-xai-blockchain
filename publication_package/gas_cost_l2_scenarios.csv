@@ -1,0 +1,6 @@
+scenario (assumed prices),gas_per_decision,usd_per_decision,usd_per_year_9_series,usd_per_year_1k_sku_loc,usd_per_year_10k_sku_loc
+"Arbitrum-style rollup, 0.01 gwei effective, ETH $3,500",498620,0.017451711965685,57.32887380727522,6369.874867475025,63698.74867475025
+"Arbitrum-style rollup, 0.1 gwei effective, ETH $3,500",498620,0.17451711965685002,573.2887380727523,63698.748674750255,636987.4867475026
+"Polygon PoS-style, 50 gwei in POL, POL $0.25",498620,0.006232754273458928,20.47459778831258,2274.955309812509,22749.55309812509
+"Polygon PoS-style, 200 gwei in POL, POL $0.25",498620,0.024931017093835713,81.89839115325032,9099.821239250035,90998.21239250035
+"Permissioned EVM (Besu/Quorum), gas price 0",498620,0.0,0.0,0.0,0.0

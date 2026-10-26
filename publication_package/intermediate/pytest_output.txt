@@ -1,0 +1,16 @@
+........................................................................ [ 85%]
+............                                                             [100%]
+- generated xml file: C:\Users\ayush\OneDrive\Desktop\supply-chain-xai-blockchain\publication_package\intermediate\pytest_junit.xml -
+=============================== tests coverage ================================
+_______________ coverage: platform win32, python 3.13.2-final-0 _______________
+
+Name                                 Stmts   Miss  Cover
+--------------------------------------------------------
+confidence\calibrate.py                103    103     0%
+confidence\confidence_estimator.py     133     29    78%
+confidence\conformal.py                 28      0   100%
+decision_gate\gate.py                   88     10    89%
+inventory\ss_rop_calculator.py          70      8    89%
+--------------------------------------------------------
+TOTAL                                  422    150    64%
+84 passed in 28.05s

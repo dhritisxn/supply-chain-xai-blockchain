@@ -1,0 +1,74 @@
+Importing plotly failed. Interactive plots will not work.
+Yearly seasonality is enabled with less than 730 days (approximately 2 years) of history. The model may be under-identified, and the trend/seasonality decomposition can be unstable and dependent on the Prophet/Stan version. Consider disabling yearly seasonality or providing more history.
+21:43:59 - cmdstanpy - INFO - Chain [1] start processing
+21:43:59 - cmdstanpy - INFO - Chain [1] done processing
+Yearly seasonality is enabled with less than 730 days (approximately 2 years) of history. The model may be under-identified, and the trend/seasonality decomposition can be unstable and dependent on the Prophet/Stan version. Consider disabling yearly seasonality or providing more history.
+21:44:00 - cmdstanpy - INFO - Chain [1] start processing
+21:44:00 - cmdstanpy - INFO - Chain [1] done processing
+Yearly seasonality is enabled with less than 730 days (approximately 2 years) of history. The model may be under-identified, and the trend/seasonality decomposition can be unstable and dependent on the Prophet/Stan version. Consider disabling yearly seasonality or providing more history.
+21:44:00 - cmdstanpy - INFO - Chain [1] start processing
+21:44:00 - cmdstanpy - INFO - Chain [1] done processing
+Yearly seasonality is enabled with less than 730 days (approximately 2 years) of history. The model may be under-identified, and the trend/seasonality decomposition can be unstable and dependent on the Prophet/Stan version. Consider disabling yearly seasonality or providing more history.
+21:44:01 - cmdstanpy - INFO - Chain [1] start processing
+21:44:01 - cmdstanpy - INFO - Chain [1] done processing
+Yearly seasonality is enabled with less than 730 days (approximately 2 years) of history. The model may be under-identified, and the trend/seasonality decomposition can be unstable and dependent on the Prophet/Stan version. Consider disabling yearly seasonality or providing more history.
+21:44:01 - cmdstanpy - INFO - Chain [1] start processing
+21:44:01 - cmdstanpy - INFO - Chain [1] done processing
+Yearly seasonality is enabled with less than 730 days (approximately 2 years) of history. The model may be under-identified, and the trend/seasonality decomposition can be unstable and dependent on the Prophet/Stan version. Consider disabling yearly seasonality or providing more history.
+21:44:02 - cmdstanpy - INFO - Chain [1] start processing
+21:44:02 - cmdstanpy - INFO - Chain [1] done processing
+Yearly seasonality is enabled with less than 730 days (approximately 2 years) of history. The model may be under-identified, and the trend/seasonality decomposition can be unstable and dependent on the Prophet/Stan version. Consider disabling yearly seasonality or providing more history.
+21:44:02 - cmdstanpy - INFO - Chain [1] start processing
+21:44:02 - cmdstanpy - INFO - Chain [1] done processing
+Yearly seasonality is enabled with less than 730 days (approximately 2 years) of history. The model may be under-identified, and the trend/seasonality decomposition can be unstable and dependent on the Prophet/Stan version. Consider disabling yearly seasonality or providing more history.
+21:44:02 - cmdstanpy - INFO - Chain [1] start processing
+21:44:02 - cmdstanpy - INFO - Chain [1] done processing
+Yearly seasonality is enabled with less than 730 days (approximately 2 years) of history. The model may be under-identified, and the trend/seasonality decomposition can be unstable and dependent on the Prophet/Stan version. Consider disabling yearly seasonality or providing more history.
+21:44:03 - cmdstanpy - INFO - Chain [1] start processing
+21:44:03 - cmdstanpy - INFO - Chain [1] done processing
+                                                                                0                             1                                                                         2                                                                                                                                                  3
+method                                           native_prophet_interval (before)  split_conformal_abs_residual                                                normalized_conformal_flags                                                                                                                                          cqr_flags
+documented_value_in_repo             +0.250 (threshold_config.yaml, calibrate.py)                                                                                                                                                                                                                                                           
+n                                                                            1278                          1278                                                                      1278                                                                                                                                               1278
+alpha                                                                         1.0                           1.0                                                                       1.0                                                                                                                                                1.0
+pearson_conf_vs_ape                                                      0.253222                      0.219605                                                                 -0.399534                                                                                                                                          -0.392118
+pearson_p_value                                                               0.0                           0.0                                                                       0.0                                                                                                                                                0.0
+spearman_conf_vs_ape                                                     0.094027                      0.105317                                                                   -0.1742                                                                                                                                          -0.123415
+spearman_p_value                                                         0.000764                      0.000162                                                                       0.0                                                                                                                                            0.00001
+auroc_low_conf_detects_ape_gt_10pct                                      0.284478                      0.259816                                                                  0.798946                                                                                                                                           0.765036
+interval_coverage                                                        0.862285                      0.820031                                                                  0.774648                                                                                                                                           0.773083
+mean_interval_width                                                     16.703245                     15.333969                                                                 14.457633                                                                                                                                          14.804074
+std_interval_width                                                       7.020644                      7.121776                                                                  9.523679                                                                                                                                          10.467053
+mean_confidence                                                          0.861565                      0.874664                                                                  0.883365                                                                                                                                           0.883085
+frac_conf_ge_0.85                                                        0.828638                        0.9241                                                                    0.9241                                                                                                                                             0.9241
+rmse                                                                     6.893595                      6.893595                                                                  6.893595                                                                                                                                           6.893595
+mape                                                                     0.040565                      0.040565                                                                  0.040565                                                                                                                                           0.040565
+mean_ape_conf_ge_0.85                                                    0.041302                       0.04084                                                                  0.036689                                                                                                                                           0.036689
+mean_ape_conf_lt_0.85                                                    0.037001                      0.037217                                                                  0.087759                                                                                                                                           0.087759
+mean_width_promo_days                                                   16.268914                     14.750375                                                                  38.52298                                                                                                                                          40.965538
+mean_width_nonpromo_days                                                16.738919                     15.381902                                                                 12.481055                                                                                                                                          12.655334
+per_series_pearson_min                                                  -0.033284                     -0.033232                                                                 -0.571657                                                                                                                                           -0.57366
+per_series_pearson_max                                                   0.488227                      0.518768                                                                 -0.119406                                                                                                                                          -0.113964
+n_series_negative_pearson                                                       1                             1                                                                         9                                                                                                                                                  9
+conformal_quantile                                                            NaN                           NaN                                                                  1.432739                                                                                                                                          -0.676599
+difficulty_model_coefs                                                                                           intercept=0.0407; is_promo=0.0525; is_holiday=0.0061; is_weekend=-0.0041  q10: is_promo=-0.0831; is_holiday=-0.0104; is_weekend=0.0079; b0=-0.0661 | q90: is_promo=0.0793; is_holiday=0.0077; is_weekend=-0.0054; b0=0.0648
+n_fit_rows                                                                   5949                          5949                                                                      5949                                                                                                                                               5949
+n_calibration_rows                                                           1269                          1269                                                                      1269                                                                                                                                               1269
+                          method  confidence_quintile  conf_min  conf_max   n  mean_ape
+native_prophet_interval (before)                    1  0.822958  0.850837 256  0.037196
+native_prophet_interval (before)                    2  0.850864  0.856601 255  0.036691
+native_prophet_interval (before)                    3  0.856605  0.862431 256  0.037290
+native_prophet_interval (before)                    4  0.862435  0.871431 255  0.035226
+native_prophet_interval (before)                    5  0.871454  0.917766 256  0.056386
+    split_conformal_abs_residual                    1  0.841995  0.860402 256  0.037144
+    split_conformal_abs_residual                    2  0.860407  0.871392 255  0.035220
+    split_conformal_abs_residual                    3  0.871749  0.878681 256  0.036950
+    split_conformal_abs_residual                    4  0.878714  0.884950 255  0.038546
+    split_conformal_abs_residual                    5  0.884989  0.928546 256  0.054936
+      normalized_conformal_flags                    1  0.752375  0.889976 949  0.042891
+      normalized_conformal_flags                    2  0.900490  0.900490 329  0.033856
+                       cqr_flags                    1  0.741995  0.884769 256  0.057355
+                       cqr_flags                    2  0.884777  0.889852 255  0.036853
+                       cqr_flags                    3  0.889857  0.895109 256  0.035351
+                       cqr_flags                    4  0.895120  0.899258 255  0.036500
+                       cqr_flags                    5  0.899279  0.909434 256  0.036736

@@ -1,0 +1,102 @@
+                 confidence_source                                                                                      gate  autonomous_rate  bad_execution_rate  mean_ape_autonomous  precision_defer  recall_defer  bad_exec_rate_minus_random_same_rate  diff_ci_low  diff_ci_high
+0                xgboost (q10/q90)                                                          confidence_gate @0.85 (deployed)         0.718573            0.038375             0.038389         0.172911      0.638298                             -0.037862    -0.047624     -0.028555
+1                xgboost (q10/q90)                                            confidence_gate @rate 77.8% (threshold=0.8441)         0.777778            0.041710             0.038353         0.197080      0.574468                             -0.034527    -0.044395     -0.025373
+2                xgboost (q10/q90)                                always_autonomous (= autonomous iff reorder_required here)         1.000000            0.076237             0.043337              NaN      0.000000                                   NaN          NaN           NaN
+3                xgboost (q10/q90)                                                                        random_gate @77.8%         0.777778            0.076246             0.043342         0.074205      0.223404                                   NaN          NaN           NaN
+4                xgboost (q10/q90)                                                           random_gate @matched rate 0.719         0.718573            0.076246             0.043337         0.071823      0.276596                                   NaN          NaN           NaN
+5                xgboost (q10/q90)                                                     heuristic: defer iff promo or holiday         0.922141            0.044855             0.038971         0.447917      0.457447                             -0.031382    -0.041147     -0.023522
+6                xgboost (q10/q90)  heuristic: defer the most volatile (trailing 7-day CV), same deferral count as gate@0.85         0.718573            0.058691             0.041924         0.121037      0.446809                             -0.017546    -0.027155     -0.007991
+7        prophet (native interval)                                                          confidence_gate @0.85 (deployed)         0.828638            0.067989             0.041302         0.031963      0.088608                              0.006173     0.003130      0.011017
+8        prophet (native interval)                                            confidence_gate @rate 77.8% (threshold=0.8516)         0.777778            0.069416             0.041455         0.035211      0.126582                              0.007601     0.003081      0.013621
+9        prophet (native interval)                                always_autonomous (= autonomous iff reorder_required here)         1.000000            0.061815             0.040565              NaN      0.000000                                   NaN          NaN           NaN
+10       prophet (native interval)                                                                        random_gate @77.8%         0.777778            0.061817             0.040565         0.054237      0.202532                                   NaN          NaN           NaN
+11       prophet (native interval)                                                           random_gate @matched rate 0.829         0.828638            0.061768             0.040555         0.066667      0.189873                                   NaN          NaN           NaN
+12       prophet (native interval)                                                     heuristic: defer iff promo or holiday         0.917840            0.029838             0.036476         0.419048      0.556962                             -0.031977    -0.040471     -0.023345
+13       prophet (native interval)  heuristic: defer the most volatile (trailing 7-day CV), same deferral count as gate@0.85         0.828638            0.060434             0.040308         0.068493      0.189873                             -0.001381    -0.008757      0.005215
+14  prophet (normalized conformal)                                                          confidence_gate @0.85 (deployed)         0.924100            0.031329             0.036689         0.432990      0.531646                             -0.030486    -0.040708     -0.022560
+15  prophet (normalized conformal)                                            confidence_gate @rate 77.8% (threshold=0.8900)         0.917840            0.029838             0.036476         0.419048      0.556962                             -0.031977    -0.041008     -0.022697
+16  prophet (normalized conformal)                                always_autonomous (= autonomous iff reorder_required here)         1.000000            0.061815             0.040565              NaN      0.000000                                   NaN          NaN           NaN
+17  prophet (normalized conformal)                                                                        random_gate @77.8%         0.777778            0.061763             0.040563         0.054054      0.177215                                   NaN          NaN           NaN
+18  prophet (normalized conformal)                                                           random_gate @matched rate 0.924         0.924100            0.061830             0.040570         0.057471      0.063291                                   NaN          NaN           NaN
+19  prophet (normalized conformal)                                                     heuristic: defer iff promo or holiday         0.917840            0.029838             0.036476         0.419048      0.556962                             -0.031977    -0.041008     -0.022697
+20  prophet (normalized conformal)  heuristic: defer the most volatile (trailing 7-day CV), same deferral count as gate@0.85         0.924100            0.061812             0.040729         0.061856      0.075949                             -0.000003    -0.003246      0.002481
+21               lstm (MC-dropout)                                                          confidence_gate @0.85 (deployed)         1.000000            0.255795             0.078197              NaN      0.000000                              0.000000     0.000000      0.000000
+22               lstm (MC-dropout)                                            confidence_gate @rate 77.8% (threshold=0.9586)         0.777778            0.237410             0.075298         0.320144      0.278125                             -0.018385    -0.030265     -0.008282
+23               lstm (MC-dropout)                                always_autonomous (= autonomous iff reorder_required here)         1.000000            0.255795             0.078197              NaN      0.000000                                   NaN          NaN           NaN
+24               lstm (MC-dropout)                                                                        random_gate @77.8%         0.777778            0.255893             0.078210         0.212851      0.165625                                   NaN          NaN           NaN
+25               lstm (MC-dropout)                                                           random_gate @matched rate 1.000         1.000000            0.255795             0.078197              NaN      0.000000                                   NaN          NaN           NaN
+26               lstm (MC-dropout)                                                     heuristic: defer iff promo or holiday         0.923261            0.200866             0.064194         0.916667      0.275000                             -0.054930    -0.067980     -0.045027
+27               lstm (MC-dropout)  heuristic: defer the most volatile (trailing 7-day CV), same deferral count as gate@0.85         1.000000            0.255795             0.078197              NaN      0.000000                                   NaN          NaN           NaN
+28            lstm (deep ensemble)                                                          confidence_gate @0.85 (deployed)         1.000000            0.271783             0.079403              NaN      0.000000                              0.000000     0.000000      0.000000
+29            lstm (deep ensemble)                                            confidence_gate @rate 77.8% (threshold=0.9909)         0.777778            0.261048             0.078527         0.309353      0.252941                             -0.010734    -0.024165     -0.000030
+30            lstm (deep ensemble)                                always_autonomous (= autonomous iff reorder_required here)         1.000000            0.271783             0.079403              NaN      0.000000                                   NaN          NaN           NaN
+31            lstm (deep ensemble)                                                                        random_gate @77.8%         0.777778            0.271572             0.079371         0.288390      0.226471                                   NaN          NaN           NaN
+32            lstm (deep ensemble)                                                           random_gate @matched rate 1.000         1.000000            0.271783             0.079403              NaN      0.000000                                   NaN          NaN           NaN
+33            lstm (deep ensemble)                                                     heuristic: defer iff promo or holiday         0.923261            0.219048             0.065868         0.906250      0.255882                             -0.052735    -0.065000     -0.044031
+34            lstm (deep ensemble)  heuristic: defer the most volatile (trailing 7-day CV), same deferral count as gate@0.85         1.000000            0.271783             0.079403              NaN      0.000000                                   NaN          NaN           NaN
+                  confidence_source  threshold  autonomous_rate  precision_defer  recall_defer  f1_defer  bad_execution_rate  auroc_low_conf_vs_bad
+11                xgboost (q10/q90)       0.50         1.000000              NaN      0.000000  0.000000            0.076237               0.742822
+12                xgboost (q10/q90)       0.55         1.000000              NaN      0.000000  0.000000            0.076237               0.742822
+13                xgboost (q10/q90)       0.60         1.000000              NaN      0.000000  0.000000            0.076237               0.742822
+14                xgboost (q10/q90)       0.65         1.000000              NaN      0.000000  0.000000            0.076237               0.742822
+15                xgboost (q10/q90)       0.70         0.996756         0.500000      0.021277  0.040816            0.074858               0.742822
+16                xgboost (q10/q90)       0.75         0.976480         0.551724      0.170213  0.260163            0.064784               0.742822
+17                xgboost (q10/q90)       0.80         0.935929         0.481013      0.404255  0.439306            0.048527               0.742822
+18                xgboost (q10/q90)       0.85         0.718573         0.172911      0.638298  0.272109            0.038375               0.742822
+19                xgboost (q10/q90)       0.90         0.038118         0.077572      0.978723  0.143750            0.042553               0.742822
+20                xgboost (q10/q90)       0.95         0.000000         0.076237      1.000000  0.141673                 NaN               0.742822
+21                xgboost (q10/q90)       0.99         0.000000         0.076237      1.000000  0.141673                 NaN               0.742822
+44        prophet (native interval)       0.50         1.000000              NaN      0.000000  0.000000            0.061815               0.284478
+45        prophet (native interval)       0.55         1.000000              NaN      0.000000  0.000000            0.061815               0.284478
+46        prophet (native interval)       0.60         1.000000              NaN      0.000000  0.000000            0.061815               0.284478
+47        prophet (native interval)       0.65         1.000000              NaN      0.000000  0.000000            0.061815               0.284478
+48        prophet (native interval)       0.70         1.000000              NaN      0.000000  0.000000            0.061815               0.284478
+49        prophet (native interval)       0.75         1.000000              NaN      0.000000  0.000000            0.061815               0.284478
+50        prophet (native interval)       0.80         1.000000              NaN      0.000000  0.000000            0.061815               0.284478
+51        prophet (native interval)       0.85         0.828638         0.031963      0.088608  0.046980            0.067989               0.284478
+52        prophet (native interval)       0.90         0.017997         0.058167      0.924051  0.109445            0.260870               0.284478
+53        prophet (native interval)       0.95         0.000000         0.061815      1.000000  0.116433                 NaN               0.284478
+54        prophet (native interval)       0.99         0.000000         0.061815      1.000000  0.116433                 NaN               0.284478
+77   prophet (normalized conformal)       0.50         1.000000              NaN      0.000000  0.000000            0.061815               0.798946
+78   prophet (normalized conformal)       0.55         1.000000              NaN      0.000000  0.000000            0.061815               0.798946
+79   prophet (normalized conformal)       0.60         1.000000              NaN      0.000000  0.000000            0.061815               0.798946
+80   prophet (normalized conformal)       0.65         1.000000              NaN      0.000000  0.000000            0.061815               0.798946
+81   prophet (normalized conformal)       0.70         1.000000              NaN      0.000000  0.000000            0.061815               0.798946
+82   prophet (normalized conformal)       0.75         1.000000              NaN      0.000000  0.000000            0.061815               0.798946
+83   prophet (normalized conformal)       0.80         0.924100         0.432990      0.531646  0.477273            0.031329               0.798946
+84   prophet (normalized conformal)       0.85         0.924100         0.432990      0.531646  0.477273            0.031329               0.798946
+85   prophet (normalized conformal)       0.90         0.257433         0.080084      0.962025  0.147860            0.009119               0.798946
+86   prophet (normalized conformal)       0.95         0.000000         0.061815      1.000000  0.116433                 NaN               0.798946
+87   prophet (normalized conformal)       0.99         0.000000         0.061815      1.000000  0.116433                 NaN               0.798946
+110               lstm (MC-dropout)       0.50         1.000000              NaN      0.000000  0.000000            0.255795               0.549329
+111               lstm (MC-dropout)       0.55         1.000000              NaN      0.000000  0.000000            0.255795               0.549329
+112               lstm (MC-dropout)       0.60         1.000000              NaN      0.000000  0.000000            0.255795               0.549329
+113               lstm (MC-dropout)       0.65         1.000000              NaN      0.000000  0.000000            0.255795               0.549329
+114               lstm (MC-dropout)       0.70         1.000000              NaN      0.000000  0.000000            0.255795               0.549329
+115               lstm (MC-dropout)       0.75         1.000000              NaN      0.000000  0.000000            0.255795               0.549329
+116               lstm (MC-dropout)       0.80         1.000000              NaN      0.000000  0.000000            0.255795               0.549329
+117               lstm (MC-dropout)       0.85         1.000000              NaN      0.000000  0.000000            0.255795               0.549329
+118               lstm (MC-dropout)       0.90         1.000000              NaN      0.000000  0.000000            0.255795               0.549329
+119               lstm (MC-dropout)       0.95         0.896882         0.372093      0.150000  0.213808            0.242424               0.549329
+120               lstm (MC-dropout)       0.99         0.094325         0.259488      0.918750  0.404680            0.220339               0.549329
+143            lstm (deep ensemble)       0.50         1.000000              NaN      0.000000  0.000000            0.271783               0.530535
+144            lstm (deep ensemble)       0.55         1.000000              NaN      0.000000  0.000000            0.271783               0.530535
+145            lstm (deep ensemble)       0.60         1.000000              NaN      0.000000  0.000000            0.271783               0.530535
+146            lstm (deep ensemble)       0.65         1.000000              NaN      0.000000  0.000000            0.271783               0.530535
+147            lstm (deep ensemble)       0.70         1.000000              NaN      0.000000  0.000000            0.271783               0.530535
+148            lstm (deep ensemble)       0.75         1.000000              NaN      0.000000  0.000000            0.271783               0.530535
+149            lstm (deep ensemble)       0.80         1.000000              NaN      0.000000  0.000000            0.271783               0.530535
+150            lstm (deep ensemble)       0.85         1.000000              NaN      0.000000  0.000000            0.271783               0.530535
+151            lstm (deep ensemble)       0.90         1.000000              NaN      0.000000  0.000000            0.271783               0.530535
+152            lstm (deep ensemble)       0.95         1.000000              NaN      0.000000  0.000000            0.271783               0.530535
+153            lstm (deep ensemble)       0.99         0.826539         0.299539      0.191176  0.233393            0.265957               0.530535
+  product region  confidence_in_repo_csv  confidence_recomputed              decision  forecast_in_repo_csv  forecast_recomputed  actual_sales_2025_08_01  realized_ape
+0   SKU_A  North                  0.9137               0.905507  AUTONOMOUS_EXECUTION                183.23           185.111328                    187.0      0.010100
+1   SKU_A  South                  0.8575               0.861620  AUTONOMOUS_EXECUTION                166.24           166.621536                    148.0      0.125821
+2   SKU_A   West                  0.8794               0.879386  AUTONOMOUS_EXECUTION                144.87           145.214722                    137.0      0.059961
+3   SKU_B  North                  0.8534               0.861112  AUTONOMOUS_EXECUTION                109.18           109.666809                    104.0      0.054489
+4   SKU_B  South                  0.8536               0.851765  AUTONOMOUS_EXECUTION                 96.18            96.843643                     97.0      0.001612
+5   SKU_B   West                  0.8309               0.826271        HUMAN_APPROVAL                 87.55            87.451279                     87.0      0.005187
+6   SKU_C  North                  0.8627               0.858250  AUTONOMOUS_EXECUTION                 69.74            70.379745                     73.0      0.035894
+7   SKU_C  South                  0.8627               0.861073  AUTONOMOUS_EXECUTION                 58.98            58.169098                     63.0      0.076681
+8   SKU_C   West                  0.8319               0.835826        HUMAN_APPROVAL                 53.94            53.306503                     54.0      0.012843

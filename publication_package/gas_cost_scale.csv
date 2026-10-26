@@ -1,0 +1,16 @@
+scale,decisions_per_year,gas_price_gwei,usd_per_year_at_eth_3500
+9 series x 1/day (this study),3285,0.5,2866.443690363761
+9 series x 1/day (this study),3285,5.0,28664.436903637612
+9 series x 1/day (this study),3285,20.0,114657.74761455045
+9 series x 1/day (this study),3285,50.0,286644.3690363761
+9 series x 1/day (this study),3285,100.0,573288.7380727523
+"1,000 SKU-locations x 1/day",365000,0.5,318493.74337375123
+"1,000 SKU-locations x 1/day",365000,5.0,3184937.4337375127
+"1,000 SKU-locations x 1/day",365000,20.0,12739749.73495005
+"1,000 SKU-locations x 1/day",365000,50.0,31849374.337375123
+"1,000 SKU-locations x 1/day",365000,100.0,63698748.674750246
+"10,000 SKU-locations x 1/day",3650000,0.5,3184937.433737512
+"10,000 SKU-locations x 1/day",3650000,5.0,31849374.337375123
+"10,000 SKU-locations x 1/day",3650000,20.0,127397497.34950049
+"10,000 SKU-locations x 1/day",3650000,50.0,318493743.3737512
+"10,000 SKU-locations x 1/day",3650000,100.0,636987486.7475024

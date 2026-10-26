@@ -1,0 +1,17 @@
+{
+  "name": "replenishment-ledger-tests",
+  "private": true,
+  "description": "Hardhat test + solidity-coverage harness for ReplenishmentLedger.sol",
+  "scripts": {
+    "test": "hardhat test",
+    "coverage": "hardhat coverage"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-chai-matchers": "2.0.8",
+    "@nomicfoundation/hardhat-ethers": "3.0.8",
+    "chai": "4.5.0",
+    "ethers": "6.13.4",
+    "hardhat": "2.22.17",
+    "solidity-coverage": "0.8.14"
+  }
+}

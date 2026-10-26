@@ -1,0 +1,57 @@
+Importing plotly failed. Interactive plots will not work.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1792944798.643636   32616 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1792944802.557350   32616 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+WARNING:tensorflow:From C:\Users\ayush\OneDrive\Desktop\supply-chain-xai-blockchain\.venv\Lib\site-packages\keras\src\backend\tensorflow\core.py:233: The name tf.placeholder is deprecated. Please use tf.compat.v1.placeholder instead.
+
+WARNING:tensorflow:TensorFlow GPU support is not available on native Windows for TensorFlow >= 2.11. Even if CUDA/cuDNN are installed, GPU will not be used. Please use WSL2 or the TensorFlow-DirectML plugin.
+WARNING:tensorflow:5 out of the last 11 calls to <function TensorFlowTrainer.make_predict_function.<locals>.one_step_on_data_distributed at 0x0000022B131EBBA0> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+WARNING:tensorflow:5 out of the last 11 calls to <function TensorFlowTrainer.make_predict_function.<locals>.one_step_on_data_distributed at 0x0000022B131EBBA0> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+  model  n_rows first_date  last_date
+xgboost    1233 2025-03-18 2025-08-01
+prophet    1278 2025-03-13 2025-08-01
+   lstm    1251 2025-03-16 2025-08-01
+  model             series metric  recomputed  saved_artifact  report_data_json  recomputed_minus_saved  recomputed_minus_report
+xgboost         ALL_pooled   rmse    7.422998        7.422998          7.420973           -3.383188e-07                 0.002025
+xgboost         ALL_pooled   mape    0.043337        0.043337          0.043364           -7.880495e-10                -0.000027
+prophet       SKU_A__North   rmse   10.676109       10.676109         10.674485           -1.776357e-15                 0.001624
+prophet       SKU_A__North   mape    0.040171        0.040171          0.040160            6.938894e-18                 0.000011
+prophet       SKU_A__South   rmse   10.264554       10.264554         10.258322           -3.552714e-15                 0.006233
+prophet       SKU_A__South   mape    0.039560        0.039560          0.039445            0.000000e+00                 0.000115
+prophet        SKU_A__West   rmse    7.748925        7.748925          7.750708           -8.881784e-16                -0.001783
+prophet        SKU_A__West   mape    0.038613        0.038613          0.038623            0.000000e+00                -0.000010
+prophet       SKU_B__North   rmse    6.018381        6.018381          6.019458           -8.881784e-16                -0.001077
+prophet       SKU_B__North   mape    0.037159        0.037159          0.037171           -6.938894e-18                -0.000011
+prophet       SKU_B__South   rmse    5.668140        5.668140          5.672596            0.000000e+00                -0.004456
+prophet       SKU_B__South   mape    0.039675        0.039675          0.039721            0.000000e+00                -0.000046
+prophet        SKU_B__West   rmse    5.686229        5.686229          5.687906            1.776357e-15                -0.001677
+prophet        SKU_B__West   mape    0.043191        0.043191          0.043185            6.938894e-18                 0.000006
+prophet       SKU_C__North   rmse    5.233642        5.233642          5.237225            0.000000e+00                -0.003583
+prophet       SKU_C__North   mape    0.045793        0.045793          0.045832            0.000000e+00                -0.000039
+prophet       SKU_C__South   rmse    3.531873        3.531873          3.532341            0.000000e+00                -0.000468
+prophet       SKU_C__South   mape    0.042324        0.042324          0.042340            0.000000e+00                -0.000016
+prophet        SKU_C__West   rmse    2.785969        2.785969          2.786250            0.000000e+00                -0.000281
+prophet        SKU_C__West   mape    0.038599        0.038599          0.038662            0.000000e+00                -0.000063
+prophet ALL_mean_of_series   rmse    6.401536        6.401536          6.402143           -8.881784e-16                -0.000608
+prophet ALL_mean_of_series   mape    0.040565        0.040565          0.040571            0.000000e+00                -0.000006
+   lstm       SKU_A__North   rmse   23.747424       23.747422         23.489279            1.251820e-06                 0.258145
+   lstm       SKU_A__North   mape    0.071466        0.071466          0.075115           -8.404330e-10                -0.003649
+   lstm       SKU_A__South   rmse   24.579662       24.579661         24.669102            1.467647e-06                -0.089439
+   lstm       SKU_A__South   mape    0.084846        0.084846          0.084221            3.456128e-09                 0.000625
+   lstm        SKU_A__West   rmse   18.276551       18.276551         18.140691           -1.093088e-07                 0.135860
+   lstm        SKU_A__West   mape    0.078759        0.078759          0.079017            6.078110e-09                -0.000257
+   lstm       SKU_B__North   rmse   12.595744       12.595745         12.610770           -4.424987e-07                -0.015025
+   lstm       SKU_B__North   mape    0.072322        0.072322          0.076237            2.071840e-09                -0.003915
+   lstm       SKU_B__South   rmse   12.805081       12.805080         12.850750            9.800426e-07                -0.045669
+   lstm       SKU_B__South   mape    0.079167        0.079167          0.078845           -3.119449e-09                 0.000322
+   lstm        SKU_B__West   rmse   11.628109       11.628109         11.647922           -5.803770e-07                -0.019814
+   lstm        SKU_B__West   mape    0.089093        0.089093          0.087737            5.100357e-09                 0.001356
+   lstm       SKU_C__North   rmse   11.139618       11.139618         11.114480            6.818034e-08                 0.025138
+   lstm       SKU_C__North   mape    0.089673        0.089673          0.088192           -2.290527e-09                 0.001481
+   lstm       SKU_C__South   rmse    7.404395        7.404395          7.353731           -2.194678e-07                 0.050663
+   lstm       SKU_C__South   mape    0.079489        0.079489          0.074148           -4.602798e-09                 0.005341
+   lstm        SKU_C__West   rmse    6.284038        6.284038          6.256097            1.541352e-07                 0.027940
+   lstm        SKU_C__West   mape    0.074334        0.074334          0.070420           -4.113120e-11                 0.003914
+   lstm ALL_mean_of_series   rmse   14.273402       14.273402         14.236980            2.855747e-07                 0.036422
+   lstm ALL_mean_of_series   mape    0.079905        0.079905          0.079326            6.457885e-10                 0.000580

@@ -1,0 +1,33 @@
+# compare_outputs.py: original publication_package vs clean-venv re-run (2026-10-26)
+IDENTICAL gas_cost_l2_scenarios.csv
+IDENTICAL gas_cost_scale.csv
+IDENTICAL gas_cost_table.csv
+IDENTICAL gas_measurements.csv
+IDENTICAL gate_baseline_comparison.csv
+IDENTICAL gate_original_scan_realized_error.csv
+IDENTICAL gate_threshold_sweep.csv
+IDENTICAL lstm_seed_variance.csv
+IDENTICAL lstm_uncertainty_comparison.csv
+IDENTICAL metric_reproduction_check.csv
+IDENTICAL prophet_calibration_before_after.csv
+IDENTICAL prophet_reliability_by_confidence_bucket.csv
+IDENTICAL statistical_seed_variance_xgboost.csv
+IDENTICAL statistical_significance.csv
+IDENTICAL statistical_significance_block_sensitivity.csv
+IDENTICAL test_set_spans.csv
+
+worst relative difference: 0.000e+00;  files differing beyond rtol=1e-09: none
+
+# intermediate/
+IDENTICAL lstm_ensemble_members.csv
+IDENTICAL test_predictions_lstm_ensemble.csv
+IDENTICAL test_predictions_lstm_mc.csv
+IDENTICAL test_predictions_prophet.csv
+IDENTICAL test_predictions_prophet_conformal.csv
+IDENTICAL test_predictions_xgboost.csv
+
+worst relative difference: 0.000e+00;  files differing beyond rtol=1e-09: none
+
+# figures (byte comparison)
+IDENTICAL gate_roc_curve.png
+IDENTICAL gate_roc_curve.svg

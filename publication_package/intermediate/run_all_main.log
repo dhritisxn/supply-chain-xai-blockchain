@@ -1,0 +1,32 @@
+
+>>> C:\Users\ayush\OneDrive\Desktop\supply-chain-xai-blockchain\.venv\Scripts\python.exe C:\Users\ayush\OneDrive\Desktop\supply-chain-xai-blockchain\blockchain\scripts\compile.py --out C:\Users\ayush\OneDrive\Desktop\supply-chain-xai-blockchain\publication_package\intermediate\compiled_check.json
+    exit=0  (2s)  log: intermediate/log_compile.txt
+    compiled artefact identical to committed ABI/bytecode: True
+
+>>> C:\Users\ayush\OneDrive\Desktop\supply-chain-xai-blockchain\.venv\Scripts\python.exe s01_build_predictions.py
+    exit=0  (34s)  log: intermediate/log_s01_build_predictions.txt
+
+>>> C:\Users\ayush\OneDrive\Desktop\supply-chain-xai-blockchain\.venv\Scripts\python.exe s02_statistical_significance.py
+    exit=0  (11s)  log: intermediate/log_s02_statistical_significance.txt
+
+>>> C:\Users\ayush\OneDrive\Desktop\supply-chain-xai-blockchain\.venv\Scripts\python.exe s03_prophet_conformal.py
+    exit=0  (10s)  log: intermediate/log_s03_prophet_conformal.txt
+
+>>> C:\Users\ayush\OneDrive\Desktop\supply-chain-xai-blockchain\.venv\Scripts\python.exe s04_lstm_uncertainty.py
+    exit=0  (3s)  log: intermediate/log_s04_lstm_uncertainty.txt
+
+>>> C:\Users\ayush\OneDrive\Desktop\supply-chain-xai-blockchain\.venv\Scripts\python.exe s05_gate_analysis.py
+    exit=0  (8s)  log: intermediate/log_s05_gate_analysis.txt
+
+>>> C:\Users\ayush\OneDrive\Desktop\supply-chain-xai-blockchain\.venv\Scripts\python.exe s06_gas_measurement.py
+    exit=0  (4s)  log: intermediate/log_s06_gas_measurement.txt
+
+>>> C:\Users\ayush\OneDrive\Desktop\supply-chain-xai-blockchain\.venv\Scripts\python.exe s07_gas_cost_table.py
+    exit=0  (1s)  log: intermediate/log_s07_gas_cost_table.txt
+
+>>> C:\Users\ayush\OneDrive\Desktop\supply-chain-xai-blockchain\.venv\Scripts\python.exe -m pytest --cov=confidence --cov=decision_gate --cov=inventory --cov-report=term --junitxml=C:\Users\ayush\OneDrive\Desktop\supply-chain-xai-blockchain\publication_package\intermediate\pytest_junit.xml -q
+    exit=0  (31s)  log: intermediate/pytest_output.txt
+
+(skip) PlantUML render: set PLANTUML_JAR=/path/to/plantuml.jar (v1.2024.7 used) to re-render SVGs
+
+FAILED STEPS: none

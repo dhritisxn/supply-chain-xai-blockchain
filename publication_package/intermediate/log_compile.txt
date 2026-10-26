@@ -1,0 +1,1 @@
+Compiled ReplenishmentLedger.sol -> C:\Users\ayush\OneDrive\Desktop\supply-chain-xai-blockchain\publication_package\intermediate\compiled_check.json (8448 bytes)

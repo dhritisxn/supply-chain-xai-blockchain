@@ -1,0 +1,88 @@
+@startuml sequence_diagram
+' One end-to-end decision as executed by the code (POST /forecast/run or the
+' Streamlit "Forecast" view), model_type = "xgboost", inventory_scenario = "below_rop".
+' Notes flag where the implementation differs from the idealised narrative.
+skinparam shadowing false
+skinparam defaultFontSize 11
+skinparam sequenceMessageAlign left
+autonumber
+
+actor "Operator" as U
+participant "Dashboard\n(Streamlit)" as D
+participant "FastAPI\nforecast router" as API
+participant "pipeline.py\nrun_pipeline()" as P
+participant "gate.py\nevaluate_series()" as G
+participant "data_loader /\nfeature_engineering" as DL
+participant "XGBoostConfidence\nEstimator" as CE
+participant "xgboost_model\n(point, q10, q90)" as M
+participant "confidence_estimator\nscore_from_interval()" as SC
+participant "ss_rop_calculator\nreorder_status()" as INV
+participant "gate.py\nroute()" as R
+participant "interact.py" as I
+participant "ReplenishmentLedger\n(Ganache)" as SCN
+
+alt via REST
+  U -> API : POST /forecast/run {product_id, region, model_type}
+  API -> P : run_pipeline(...)
+else via dashboard (in-process, no HTTP)
+  U -> D : click "Run forecast"
+  D -> P : run_pipeline(...)
+end
+
+P -> G : evaluate_series(product, region, "xgboost", scenario)
+G -> DL : load_raw_sales(); build_feature_table(raw)
+DL --> G : feature row for the latest date
+note over G
+  ONE model per call (model_type). The "tri-model"
+  aspect is three alternative paths, not an ensemble:
+  prophet -> train_prophet_for_series() (re-fit per call)
+  lstm    -> train_lstm_for_series(epochs=15) (re-fit per call)
+end note
+G -> CE : estimate(row)
+CE -> M : point.predict / q10.predict / q90.predict
+M --> CE : yhat, lower, upper (sorted)
+CE -> SC : score_from_interval(yhat, lower, upper, alpha=1.0)
+SC --> CE : ConfidenceResult(confidence = exp(-alpha*(upper-lower)/|yhat|))
+CE --> G : ConfidenceResult
+note over G, SC
+  Explainability (ShapExplainer / prophet_decomposition /
+  lstm_attention) is NOT invoked on this path.
+end note
+G -> INV : reorder_status(forecast, history, scenario)
+INV -> INV : SS = 1.645*sigma_90d*sqrt(7)\nROP = forecast*7 + SS\ninventory = simulate_current_inventory()
+INV --> G : InventoryStatus(reorder_required, order_qty)
+G -> R : route(InventoryStatus, ConfidenceResult)
+R -> R : threshold = get_threshold()  (0.85)
+R --> G : DecisionRecord(decision)
+G --> P : DecisionRecord
+
+alt log_to_chain and chain reachable
+  P -> I : log_decision(record)
+  I -> I : shapHash = sha256(json(confidence_metadata))
+  I -> SCN : logDecision(..., confidence*1e18, 0.85e18, shapHash, status)  from accounts[0]
+  SCN -> SCN : onlyAuthorizedCaller; confidence <= 1;\nif AUTO: threshold >= floor && confidence >= threshold
+  SCN --> I : DecisionLogged (+ HumanApprovalRequired if status = 2)
+  I --> P : {decision_id, tx_hash, gas_used}
+
+  alt decision == AUTONOMOUS_EXECUTION
+    P -> I : execute_po(decision_id)
+    I -> SCN : autoExecutePO(decision_id)
+    SCN -> SCN : onlyAuthorizedCaller; nonReentrant;\nstatus == AUTO; qty > 0; no prior PO
+    SCN --> I : OrderExecuted(poId)
+    I --> P : {po_id, tx_hash, gas_used}
+  else decision == HUMAN_APPROVAL
+    note over P, SCN : ledger entry only; appears in GET /approvals/pending.\nPOST /approvals/{id}/approve returns a note; it does NOT create an on-chain PO.
+  else NO_ACTION
+    note over P, SCN : ledger entry only
+  end
+else chain unavailable
+  note over P : returns the pipeline result with chain_result = None
+end
+
+P --> API : {decision_record, chain_result, po_result}
+API --> U : JSON response
+P --> D : result dict
+D -> I : (Ledger / Approvals views) getAllDecisionIds(), getDecision(id), getAllPOIds()
+I -> SCN : eth_call
+SCN --> D : on-chain records rendered in the dashboard
+@enduml

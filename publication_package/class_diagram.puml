@@ -1,0 +1,298 @@
+@startuml class_diagram
+' Class diagram of the core modules AS IMPLEMENTED (not idealised).
+' Solid arrows = a call/import that exists in the code; dashed = data type used.
+' Notes flag places where the code differs from the README/PROJECT_CONTEXT narrative.
+!pragma layout smetana
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam defaultFontSize 11
+skinparam packageStyle rectangle
+hide empty members
+
+package "data" {
+  class data_loader <<module>> {
+    +load_raw_sales(path=None) : DataFrame
+    +generate_synthetic_sales(start, end, seed=42) : DataFrame
+    HOLIDAYS
+  }
+  class feature_engineering <<module>> {
+    +build_feature_table(raw) : (DataFrame, dict)
+    FEATURE_COLS
+    TARGET_COL
+  }
+}
+
+package "models" {
+  class xgboost_model <<module>> {
+    POINT_PARAMS / QUANTILE_PARAMS
+    +train_xgboost(save=True) : dict
+    +time_based_split(df, test_frac=0.15)
+    +load_xgboost_models() : (point, q10, q90, encoders)
+  }
+  class prophet_model <<module>> {
+    +train_prophet_for_series(raw, product, region, test_frac=0.15)
+    +train_all_prophet_models(save=True)
+    +get_decomposition(model, forecast)
+  }
+  class lstm_model <<module>> {
+    WINDOW = 21
+    +build_model(window, n_features, dropout)
+    +make_windows(series, window)
+    +train_lstm_for_series(raw, product, region, epochs=25)
+    +predict_with_uncertainty(model, X, n_passes=30)
+  }
+  class AdditiveAttention <<keras Layer>> {
+    units : int
+    +call(encoder_outputs) : (context, weights)
+  }
+  lstm_model *-- AdditiveAttention
+}
+
+package "explainability" {
+  class ShapExplainer {
+    +explain_row(feature_row) : dict
+    +explain_batch(feature_df)
+  }
+  class shap_explainer <<module>> {
+    +hash_explanation(explanation) : str
+  }
+  class prophet_decomposition <<module>> {
+    +explain_forecast_row(forecast_row) : dict
+  }
+  class lstm_attention <<module>> {
+    +explain_prediction(attention_weights, window_dates, predicted_value) : dict
+  }
+}
+
+package "confidence" {
+  class ConfidenceResult <<dataclass>> {
+    model_type, method : str
+    point_forecast, lower_bound, upper_bound : float
+    interval_width, relative_width : float
+    confidence : float
+    metadata : dict
+    +meets_threshold(threshold=None) : bool
+    +to_dict() : dict
+  }
+  class confidence_estimator <<module>> {
+    +get_threshold() : float  // reads threshold_config.yaml
+    +score_from_interval(point, lower, upper, alpha, ...) : ConfidenceResult
+    -_width_to_confidence(rel_width, alpha) = exp(-alpha*rel_width)
+  }
+  class XGBoostConfidenceEstimator {
+    alpha = 1.0
+    +estimate(feature_row) : ConfidenceResult
+  }
+  class ProphetConfidenceEstimator {
+    alpha = 1.0
+    +estimate(forecast_row) : ConfidenceResult
+  }
+  class LSTMConfidenceEstimator {
+    alpha = 0.5
+    n_passes = 30
+    z_multiplier = 1.28
+    +estimate(model, X_window, scaler) : ConfidenceResult
+  }
+  class ConfidenceEstimationModule <<facade>> {
+    +xgboost / +prophet / +lstm (lazy)
+  }
+  class conformal <<module, new>> {
+    +split_conformal(...)
+    +normalized_conformal(...)
+    +cqr(...)
+  }
+  ConfidenceEstimationModule o-- XGBoostConfidenceEstimator
+  ConfidenceEstimationModule o-- ProphetConfidenceEstimator
+  ConfidenceEstimationModule o-- LSTMConfidenceEstimator
+  XGBoostConfidenceEstimator ..> ConfidenceResult
+  ProphetConfidenceEstimator ..> ConfidenceResult
+  LSTMConfidenceEstimator ..> ConfidenceResult
+  XGBoostConfidenceEstimator --> confidence_estimator : score_from_interval
+  ProphetConfidenceEstimator --> confidence_estimator : score_from_interval
+  LSTMConfidenceEstimator --> confidence_estimator : score_from_interval
+}
+
+package "inventory" {
+  class InventoryStatus <<dataclass>> {
+    daily_demand_forecast, demand_std : float
+    lead_time_days, safety_stock, reorder_point : float
+    current_inventory : float
+    reorder_required : bool
+    suggested_order_quantity : float
+  }
+  class ss_rop_calculator <<module>> {
+    +compute_demand_std(hist, window=90)
+    +compute_safety_stock(sigma, L=7, z=1.645)  // Z*sigma*sqrt(L)
+    +compute_reorder_point(D, SS, L=7)          // D*L + SS
+    +simulate_current_inventory(rop, ss, scenario)
+    +reorder_status(...) : InventoryStatus
+  }
+  ss_rop_calculator ..> InventoryStatus
+}
+
+package "decision_gate" {
+  enum GateDecision {
+    NO_ACTION
+    AUTONOMOUS_EXECUTION
+    HUMAN_APPROVAL
+  }
+  class DecisionRecord <<dataclass>> {
+    product_id, region, model_type, timestamp
+    forecast, confidence, confidence_threshold
+    reorder_required, safety_stock, reorder_point
+    current_inventory, suggested_order_quantity
+    decision : GateDecision
+    reasoning : str
+    confidence_metadata : dict
+    +to_dict()
+  }
+  class gate <<module>> {
+    +route(inv : InventoryStatus, conf : ConfidenceResult, model_type, threshold) : DecisionRecord
+    +evaluate_series(product, region, model_type, inventory_scenario, current_inventory) : DecisionRecord
+  }
+  gate ..> DecisionRecord
+  DecisionRecord --> GateDecision
+}
+
+package "blockchain" {
+  class interact <<module (web3.py bridge)>> {
+    FIXED_POINT = 1e18
+    +log_decision(record, w3) : dict
+    +execute_po(decision_id, w3) : dict
+    +get_decision(id) / get_po(id)
+    -_shap_hash(metadata) : bytes32
+    -_load_contract(w3)
+  }
+  class deploy <<module>> {
+    +deploy(w3) : address
+  }
+  class compile <<module, new>> {
+    +compile_contract(source) : {abi, bytecode}
+  }
+  class ReplenishmentLedger <<Solidity contract v2>> {
+    +owner : address
+    +authorizedCallers : mapping(address=>bool)
+    +poForDecision : mapping(uint=>uint)
+    +minAutonomousThreshold : uint256
+    +decisions : mapping(uint=>DecisionRecord)
+    +purchaseOrders : mapping(uint=>PurchaseOrder)
+    --
+    +logDecision(sku, region, qty, modelType, forecast, confidence, threshold, shapHash, status) <<onlyAuthorizedCaller>>
+    +autoExecutePO(decisionId) <<onlyAuthorizedCaller, nonReentrant>>
+    +setAuthorizedCaller(addr, bool) <<onlyOwner>>
+    +setMinAutonomousThreshold(v) <<onlyOwner>>
+    +transferOwnership(addr) <<onlyOwner>>
+    +getDecision / getPO / getDecisionCount / getPOCount / getAllDecisionIds / getAllPOIds
+    ..events..
+    DecisionLogged / OrderExecuted / HumanApprovalRequired
+    OwnershipTransferred / CallerAuthorizationChanged / MinAutonomousThresholdChanged
+  }
+  class "DecisionRecord (struct)" as SolDecision {
+    id, sku, region, orderQuantity, modelType
+    forecastValue, confidenceScore, confidenceThreshold
+    shapHash : bytes32
+    status : ExecutionStatus
+    timestamp
+  }
+  class "PurchaseOrder (struct)" as SolPO {
+    id, decisionId, sku, region, quantity, timestamp
+    status : ExecutionStatus
+  }
+  enum ExecutionStatus {
+    NO_ACTION = 0
+    AUTONOMOUS_EXECUTION = 1
+    HUMAN_APPROVAL = 2
+  }
+  ReplenishmentLedger *-- SolDecision
+  ReplenishmentLedger *-- SolPO
+  SolDecision --> ExecutionStatus
+  SolPO --> SolDecision : decisionId
+  interact --> ReplenishmentLedger : logDecision / autoExecutePO (JSON-RPC)
+  deploy --> ReplenishmentLedger : constructor()
+}
+
+package "orchestration" {
+  class pipeline <<module>> {
+    +run_pipeline(product, region, model_type, inventory_scenario, current_inventory, log_to_chain) : dict
+    +run_full_scan(inventory_scenario, model_types, log_to_chain)
+  }
+  class ledger_integrity_check <<module>> {
+    +verify_ledger() : dict
+    +tamper_demo()
+  }
+}
+
+package "backend (FastAPI)" {
+  class "forecast router" as RF {
+    GET /forecast/products, /models, /metrics
+    POST /forecast/run, /forecast/scan
+  }
+  class "ledger router" as RL {
+    GET /ledger/summary, /decisions, /purchase-orders
+    POST /ledger/verify
+  }
+  class "approvals router" as RA {
+    GET /approvals/pending
+    POST /approvals/{id}/approve  // returns a note only; no on-chain PO
+    POST /approvals/{id}/reject
+  }
+  class schemas <<module>>
+}
+
+class "dashboard/app.py" as Dash <<Streamlit>>
+
+' ------------------------------------------------------------- real dependencies
+feature_engineering --> data_loader
+xgboost_model --> feature_engineering
+xgboost_model --> data_loader
+prophet_model --> data_loader
+lstm_model --> data_loader
+ShapExplainer --> feature_engineering
+XGBoostConfidenceEstimator --> xgboost_model : load_xgboost_models()
+LSTMConfidenceEstimator --> lstm_model : predict_with_uncertainty()
+
+gate --> confidence_estimator : get_threshold()
+gate --> ConfidenceResult
+gate --> InventoryStatus
+gate --> ss_rop_calculator : reorder_status()
+gate --> XGBoostConfidenceEstimator
+gate --> ProphetConfidenceEstimator
+gate --> LSTMConfidenceEstimator
+gate --> prophet_model : train_prophet_for_series()\n(RE-TRAINS per call)
+gate --> lstm_model : train_lstm_for_series(epochs=15)\n(RE-TRAINS per call)
+gate --> feature_engineering
+gate --> data_loader
+
+pipeline --> gate : evaluate_series()
+pipeline --> interact : log_decision(), execute_po()
+interact ..> DecisionRecord : consumes to_dict()
+ledger_integrity_check --> interact
+
+RF --> pipeline
+RL --> interact
+RL --> ledger_integrity_check
+RA --> interact
+Dash --> pipeline : run_pipeline() in-process
+Dash --> interact
+Dash --> ledger_integrity_check
+
+note right of interact
+  _shap_hash() hashes record.confidence_metadata
+  (for XGBoost: {"quantiles": [0.1, 0.9]}),
+  NOT a SHAP explanation. ShapExplainer /
+  hash_explanation are not called anywhere on
+  the decision path.
+end note
+note bottom of schemas
+  Pydantic models defined but not
+  imported by any router (routers take dict).
+end note
+note bottom of Dash
+  Calls pipeline in-process; it does not
+  go through the FastAPI backend.
+end note
+note top of explainability
+  No package in the decision path imports
+  this package (standalone / demo use only).
+end note
+@enduml
