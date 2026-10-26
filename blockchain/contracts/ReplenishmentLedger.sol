@@ -16,6 +16,20 @@ pragma solidity ^0.8.19;
  * Fixed-point encoding: all float values from the Python pipeline are
  * encoded as uint256 with 18 decimal places (1e18 = 1.0) to preserve
  * precision without floating-point on-chain.
+ *
+ * v2 security hardening (see publication_package/security_review.md):
+ *   - logDecision() / autoExecutePO() restricted to owner-managed
+ *     authorized callers (the deployer is authorized at construction, so
+ *     the existing backend flow -- which sends from accounts[0] -- is
+ *     unchanged).
+ *   - autoExecutePO() can execute at most one PO per decision and is
+ *     guarded by a reentrancy lock (defence in depth: it makes no external
+ *     calls, so checks-effects-interactions already holds).
+ *   - An AUTONOMOUS_EXECUTION record must carry a confidence score that
+ *     meets its stated threshold, and that threshold may not be below an
+ *     owner-controlled on-chain floor. This does NOT verify how the
+ *     confidence was computed off-chain (see the oracle-risk section of the
+ *     security review).
  */
 contract ReplenishmentLedger {
 
@@ -73,6 +87,24 @@ contract ReplenishmentLedger {
     // All PO IDs in insertion order
     uint256[] public poIds;
 
+    // --- v2: access control / safety state --------------------------------
+
+    address public owner;
+
+    // Backend addresses allowed to write decisions and execute POs
+    mapping(address => bool) public authorizedCallers;
+
+    // decisionId => poId (0 = no PO executed yet); prevents double execution
+    mapping(uint256 => uint256) public poForDecision;
+
+    // On-chain floor for the autonomous-execution threshold (fixed-point 1e18)
+    uint256 public minAutonomousThreshold;
+
+    uint256 private constant FIXED_ONE = 1e18;
+    uint256 private constant _NOT_ENTERED = 1;
+    uint256 private constant _ENTERED = 2;
+    uint256 private _reentrancyStatus = _NOT_ENTERED;
+
     // -----------------------------------------------------------------------
     //  Events
     // -----------------------------------------------------------------------
@@ -106,6 +138,62 @@ contract ReplenishmentLedger {
         uint256 timestamp
     );
 
+    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
+    event CallerAuthorizationChanged(address indexed caller, bool authorized);
+    event MinAutonomousThresholdChanged(uint256 previousValue, uint256 newValue);
+
+    // -----------------------------------------------------------------------
+    //  Modifiers
+    // -----------------------------------------------------------------------
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Caller is not the owner");
+        _;
+    }
+
+    modifier onlyAuthorizedCaller() {
+        require(authorizedCallers[msg.sender], "Caller is not authorized");
+        _;
+    }
+
+    modifier nonReentrant() {
+        require(_reentrancyStatus == _NOT_ENTERED, "Reentrant call");
+        _reentrancyStatus = _ENTERED;
+        _;
+        _reentrancyStatus = _NOT_ENTERED;
+    }
+
+    // -----------------------------------------------------------------------
+    //  Constructor + administration
+    // -----------------------------------------------------------------------
+
+    constructor() {
+        owner = msg.sender;
+        authorizedCallers[msg.sender] = true;
+        minAutonomousThreshold = 85e16;  // 0.85, matches threshold_config.yaml
+        emit OwnershipTransferred(address(0), msg.sender);
+        emit CallerAuthorizationChanged(msg.sender, true);
+        emit MinAutonomousThresholdChanged(0, 85e16);
+    }
+
+    function setAuthorizedCaller(address caller, bool authorized) external onlyOwner {
+        require(caller != address(0), "Zero address");
+        authorizedCallers[caller] = authorized;
+        emit CallerAuthorizationChanged(caller, authorized);
+    }
+
+    function transferOwnership(address newOwner) external onlyOwner {
+        require(newOwner != address(0), "Zero address");
+        emit OwnershipTransferred(owner, newOwner);
+        owner = newOwner;
+    }
+
+    function setMinAutonomousThreshold(uint256 newValue) external onlyOwner {
+        require(newValue <= FIXED_ONE, "Threshold above 1.0");
+        emit MinAutonomousThresholdChanged(minAutonomousThreshold, newValue);
+        minAutonomousThreshold = newValue;
+    }
+
     // -----------------------------------------------------------------------
     //  Core functions
     // -----------------------------------------------------------------------
@@ -136,8 +224,15 @@ contract ReplenishmentLedger {
         ExecutionStatus _status
     )
         external
+        onlyAuthorizedCaller
         returns (uint256 decisionId)
     {
+        require(_confidenceScore <= FIXED_ONE, "Confidence above 1.0");
+        if (_status == ExecutionStatus.AUTONOMOUS_EXECUTION) {
+            require(_confidenceThreshold >= minAutonomousThreshold, "Threshold below on-chain minimum");
+            require(_confidenceScore >= _confidenceThreshold, "Confidence below threshold");
+        }
+
         decisionId = _nextDecisionId++;
 
         decisions[decisionId] = DecisionRecord({
@@ -181,12 +276,15 @@ contract ReplenishmentLedger {
     }
 
     /**
-     * @notice Auto-execute a Purchase Order on-chain.  Only callable when
-     *         the decision status is AUTONOMOUS_EXECUTION.
+     * @notice Auto-execute a Purchase Order on-chain.  Only callable by an
+     *         authorized caller, only when the decision status is
+     *         AUTONOMOUS_EXECUTION, and at most once per decision.
      * @param decisionId  ID of the DecisionRecord that triggered this PO
      */
     function autoExecutePO(uint256 decisionId)
         external
+        onlyAuthorizedCaller
+        nonReentrant
         returns (uint256 poId)
     {
         DecisionRecord storage rec = decisions[decisionId];
@@ -196,8 +294,11 @@ contract ReplenishmentLedger {
             "Decision was not marked AUTONOMOUS_EXECUTION"
         );
         require(rec.orderQuantity > 0, "Order quantity is zero");
+        require(poForDecision[decisionId] == 0, "PO already executed for decision");
 
+        // Effects (no external interactions follow -- CEI holds trivially)
         poId = _nextPOId++;
+        poForDecision[decisionId] = poId;
 
         purchaseOrders[poId] = PurchaseOrder({
             id:          poId,
