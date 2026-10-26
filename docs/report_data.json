@@ -1,0 +1,324 @@
+{
+  "dataset": {
+    "total_rows": 8496,
+    "features": 24,
+    "products": [
+      "SKU_A",
+      "SKU_B",
+      "SKU_C"
+    ],
+    "regions": [
+      "North",
+      "South",
+      "West"
+    ],
+    "date_range": [
+      "2023-01-01 00:00:00",
+      "2025-08-01 00:00:00"
+    ],
+    "columns": [
+      "date",
+      "product_id",
+      "region",
+      "sales",
+      "is_holiday",
+      "is_promo",
+      "price"
+    ],
+    "feature_columns": [
+      "date",
+      "product_id",
+      "region",
+      "sales",
+      "is_holiday",
+      "is_promo",
+      "price",
+      "day_of_week",
+      "day_of_month",
+      "month",
+      "week_of_year",
+      "is_weekend",
+      "lag_1",
+      "lag_7",
+      "lag_14",
+      "lag_28",
+      "rolling_mean_7",
+      "rolling_std_7",
+      "rolling_mean_14",
+      "rolling_std_14",
+      "rolling_mean_30",
+      "rolling_std_30",
+      "product_id_enc",
+      "region_enc"
+    ]
+  },
+  "model_metrics": {
+    "xgboost": {
+      "aggregate": {
+        "rmse": 7.42097290981598,
+        "mape": 0.043364085257053375,
+        "r2": 0.9768356084823608
+      },
+      "per_series": {}
+    },
+    "prophet": {
+      "aggregate": {
+        "rmse": 6.402143363241397,
+        "mape": 0.04057099133459958,
+        "r2": null
+      },
+      "per_series": {
+        "SKU_A__North": {
+          "rmse": 10.674485211943685,
+          "mape": 0.04015960541134673
+        },
+        "SKU_A__South": {
+          "rmse": 10.258321582685339,
+          "mape": 0.0394447129910078
+        },
+        "SKU_A__West": {
+          "rmse": 7.750707695302673,
+          "mape": 0.03862321895975704
+        },
+        "SKU_B__North": {
+          "rmse": 6.019458361280908,
+          "mape": 0.03717061852242534
+        },
+        "SKU_B__South": {
+          "rmse": 5.672595523446621,
+          "mape": 0.03972109889687551
+        },
+        "SKU_B__West": {
+          "rmse": 5.687905730011237,
+          "mape": 0.0431850953167225
+        },
+        "SKU_C__North": {
+          "rmse": 5.237224975356554,
+          "mape": 0.04583212487791512
+        },
+        "SKU_C__South": {
+          "rmse": 3.5323412302088903,
+          "mape": 0.04234046339320894
+        },
+        "SKU_C__West": {
+          "rmse": 2.7862499589366636,
+          "mape": 0.038661983642137215
+        }
+      }
+    },
+    "lstm": {
+      "aggregate": {
+        "rmse": 14.236980225849257,
+        "mape": 0.07932576537132263,
+        "r2": null
+      },
+      "per_series": {
+        "SKU_A__North": {
+          "rmse": 23.489278742019998,
+          "mape": 0.07511477917432785
+        },
+        "SKU_A__South": {
+          "rmse": 24.669101629271232,
+          "mape": 0.08422110974788666
+        },
+        "SKU_A__West": {
+          "rmse": 18.140690608731486,
+          "mape": 0.07901667058467865
+        },
+        "SKU_B__North": {
+          "rmse": 12.610769579982582,
+          "mape": 0.076236791908741
+        },
+        "SKU_B__South": {
+          "rmse": 12.850750354277713,
+          "mape": 0.07884525507688522
+        },
+        "SKU_B__West": {
+          "rmse": 11.647922026027391,
+          "mape": 0.08773697912693024
+        },
+        "SKU_C__North": {
+          "rmse": 11.114480177529636,
+          "mape": 0.08819185197353363
+        },
+        "SKU_C__South": {
+          "rmse": 7.353731425286359,
+          "mape": 0.07414823025465012
+        },
+        "SKU_C__West": {
+          "rmse": 6.256097489516915,
+          "mape": 0.07042022049427032
+        }
+      }
+    }
+  },
+  "confidence_threshold": 0.85,
+  "gate_scan": {
+    "SKU_A_North_xgboost_below_rop": {
+      "decision": "AUTONOMOUS_EXECUTION",
+      "confidence": 0.9137,
+      "reorder_required": true,
+      "forecast": 183.23,
+      "safety_stock": 97.5,
+      "reorder_point": 1380.1,
+      "current_inventory": 438.57
+    },
+    "SKU_A_North_xgboost_above_rop": {
+      "decision": "NO_ACTION",
+      "confidence": 0.9137,
+      "reorder_required": false,
+      "forecast": 183.23,
+      "safety_stock": 97.5,
+      "reorder_point": 1380.1,
+      "current_inventory": 1655.89
+    },
+    "SKU_A_South_xgboost_below_rop": {
+      "decision": "AUTONOMOUS_EXECUTION",
+      "confidence": 0.8575,
+      "reorder_required": true,
+      "forecast": 166.24,
+      "safety_stock": 101.09,
+      "reorder_point": 1264.76,
+      "current_inventory": 913.1
+    },
+    "SKU_A_South_xgboost_above_rop": {
+      "decision": "NO_ACTION",
+      "confidence": 0.8575,
+      "reorder_required": false,
+      "forecast": 166.24,
+      "safety_stock": 101.09,
+      "reorder_point": 1264.76,
+      "current_inventory": 1518.06
+    },
+    "SKU_A_West_xgboost_below_rop": {
+      "decision": "AUTONOMOUS_EXECUTION",
+      "confidence": 0.8794,
+      "reorder_required": true,
+      "forecast": 144.87,
+      "safety_stock": 74.41,
+      "reorder_point": 1088.53,
+      "current_inventory": 514.1
+    },
+    "SKU_A_West_xgboost_above_rop": {
+      "decision": "NO_ACTION",
+      "confidence": 0.8794,
+      "reorder_required": false,
+      "forecast": 144.87,
+      "safety_stock": 74.41,
+      "reorder_point": 1088.53,
+      "current_inventory": 1295.29
+    },
+    "SKU_B_North_xgboost_below_rop": {
+      "decision": "AUTONOMOUS_EXECUTION",
+      "confidence": 0.8534,
+      "reorder_required": true,
+      "forecast": 109.18,
+      "safety_stock": 59.56,
+      "reorder_point": 823.84,
+      "current_inventory": 425.83
+    },
+    "SKU_B_North_xgboost_above_rop": {
+      "decision": "NO_ACTION",
+      "confidence": 0.8534,
+      "reorder_required": false,
+      "forecast": 109.18,
+      "safety_stock": 59.56,
+      "reorder_point": 823.84,
+      "current_inventory": 925.65
+    },
+    "SKU_B_South_xgboost_below_rop": {
+      "decision": "AUTONOMOUS_EXECUTION",
+      "confidence": 0.8536,
+      "reorder_required": true,
+      "forecast": 96.18,
+      "safety_stock": 61.7,
+      "reorder_point": 734.93,
+      "current_inventory": 386.45
+    },
+    "SKU_B_South_xgboost_above_rop": {
+      "decision": "NO_ACTION",
+      "confidence": 0.8536,
+      "reorder_required": false,
+      "forecast": 96.18,
+      "safety_stock": 61.7,
+      "reorder_point": 734.93,
+      "current_inventory": 896.2
+    },
+    "SKU_B_West_xgboost_below_rop": {
+      "decision": "HUMAN_APPROVAL",
+      "confidence": 0.8309,
+      "reorder_required": true,
+      "forecast": 87.55,
+      "safety_stock": 48.84,
+      "reorder_point": 661.71,
+      "current_inventory": 316.58
+    },
+    "SKU_B_West_xgboost_above_rop": {
+      "decision": "NO_ACTION",
+      "confidence": 0.8309,
+      "reorder_required": false,
+      "forecast": 87.55,
+      "safety_stock": 48.84,
+      "reorder_point": 661.71,
+      "current_inventory": 740.66
+    },
+    "SKU_C_North_xgboost_below_rop": {
+      "decision": "AUTONOMOUS_EXECUTION",
+      "confidence": 0.8627,
+      "reorder_required": true,
+      "forecast": 69.74,
+      "safety_stock": 49.51,
+      "reorder_point": 537.66,
+      "current_inventory": 275.77
+    },
+    "SKU_C_North_xgboost_above_rop": {
+      "decision": "NO_ACTION",
+      "confidence": 0.8627,
+      "reorder_required": false,
+      "forecast": 69.74,
+      "safety_stock": 49.51,
+      "reorder_point": 537.66,
+      "current_inventory": 623.98
+    },
+    "SKU_C_South_xgboost_below_rop": {
+      "decision": "AUTONOMOUS_EXECUTION",
+      "confidence": 0.8627,
+      "reorder_required": true,
+      "forecast": 58.98,
+      "safety_stock": 34.22,
+      "reorder_point": 447.06,
+      "current_inventory": 377.83
+    },
+    "SKU_C_South_xgboost_above_rop": {
+      "decision": "NO_ACTION",
+      "confidence": 0.8627,
+      "reorder_required": false,
+      "forecast": 58.98,
+      "safety_stock": 34.22,
+      "reorder_point": 447.06,
+      "current_inventory": 526.71
+    },
+    "SKU_C_West_xgboost_below_rop": {
+      "decision": "HUMAN_APPROVAL",
+      "confidence": 0.8319,
+      "reorder_required": true,
+      "forecast": 53.94,
+      "safety_stock": 27.43,
+      "reorder_point": 404.98,
+      "current_inventory": 298.14
+    },
+    "SKU_C_West_xgboost_above_rop": {
+      "decision": "NO_ACTION",
+      "confidence": 0.8319,
+      "reorder_required": false,
+      "forecast": 53.94,
+      "safety_stock": 27.43,
+      "reorder_point": 404.98,
+      "current_inventory": 453.02
+    }
+  },
+  "blockchain": {
+    "total_decisions": 17,
+    "total_pos": 8
+  }
+}

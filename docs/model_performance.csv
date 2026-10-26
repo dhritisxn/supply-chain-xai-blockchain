@@ -1,0 +1,4 @@
+Model,RMSE,MAPE,MAPE_Percent,R_Squared
+xgboost,7.42,0.0434,4.34,0.9768
+prophet,6.4,0.0406,4.06,
+lstm,14.24,0.0793,7.93,

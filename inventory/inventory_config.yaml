@@ -1,0 +1,19 @@
+# inventory_config.yaml
+#
+# Single source of truth for SS/ROP parameters. Nothing else in the
+# codebase should hard-code these -- import get_inventory_config() from
+# ss_rop_calculator.py instead.
+
+# Service level -> Z score (standard normal inverse CDF). 0.95 = 95% chance
+# of not stocking out during lead time -- a common retail default.
+SERVICE_LEVEL: 0.95
+Z_SCORE: 1.645
+
+# Lead time from placing an order to it arriving, in days. Same lead time
+# is used for every product/region in this demo; a real deployment would
+# key this per supplier/product.
+LEAD_TIME_DAYS: 7
+
+# Window (days) of trailing actual sales used to estimate demand
+# variability (sigma_d) for the Safety Stock formula.
+DEMAND_STD_WINDOW_DAYS: 90
