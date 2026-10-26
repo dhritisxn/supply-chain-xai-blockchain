@@ -21,6 +21,7 @@ Steps
      exists (`cd blockchain && npm ci`) -> intermediate/log_hardhat_coverage.txt
  10. PlantUML -> SVG (Task 7), only if PLANTUML_JAR points to a plantuml.jar
  11. reproducibility_manifest.csv (SHA-256 of every output)
+ 12. s08  consolidated results_bundle/ (RESULTS_ALL.xlsx / .md, FIGURES_ALL.pdf, archive zip)
 
 Random seeds: numpy/python/keras seed 42 everywhere (common.SEED); LSTM
 ensemble members seeds 0-4 with TensorFlow op determinism enabled; bootstrap
@@ -111,6 +112,9 @@ def main():
         if f.is_file() and f.suffix in {".csv", ".png", ".svg", ".md", ".puml"} and f.name != "reproducibility_manifest.csv":
             rows.append(f"{f.name},{hashlib.sha256(f.read_bytes()).hexdigest()},{f.stat().st_size}")
     (PKG / "reproducibility_manifest.csv").write_text("\n".join(rows) + "\n")
+
+    if run([PY, "s08_bundle_results.py"], SCRIPTS, "log_s08_bundle_results.txt") != 0:
+        failures.append("s08_bundle_results.py")
 
     print("\nFAILED STEPS:", failures if failures else "none")
     sys.exit(1 if failures else 0)
